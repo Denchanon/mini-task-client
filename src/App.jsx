@@ -8,7 +8,7 @@ function App() {
   let [taskName, setTaskName] = useState("");
 
   useEffect(() => {
-    fetch("${API_URL}/tasks")
+    fetch(`${API_URL}/tasks`)
       .then(res => res.json())
       .then(data => setTasks(data));
   }, []);
@@ -16,7 +16,7 @@ function App() {
 
   async function handleAddTask() {
     if (taskName === "") return;
-    const res = await fetch("${API_URL}/tasks", {
+    const res = await fetch(`${API_URL}/tasks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: taskName }),
