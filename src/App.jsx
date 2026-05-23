@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   let [tasks, setTasks] = useState([]);
   let [taskName, setTaskName] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/tasks")
+    fetch("${API_URL}/tasks")
       .then(res => res.json())
       .then(data => setTasks(data));
   }, []);
@@ -14,7 +16,7 @@ function App() {
 
   async function handleAddTask() {
     if (taskName === "") return;
-    const res = await fetch("http://localhost:3000/tasks", {
+    const res = await fetch("${API_URL}/tasks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: taskName }),
@@ -25,7 +27,7 @@ function App() {
   }
 
   async function handleMarkAsDone(id) {
-    const res = await fetch(`http://localhost:3000/tasks/${id}`, {
+    const res = await fetch(`${API_URL}/tasks/${id}`, {
       method: "PATCH",
     });
     const updatedTask = await res.json();
@@ -36,7 +38,7 @@ function App() {
   }
 
   async function handleDeleteTask(id) {
-    await fetch(`http://localhost:3000/tasks/${id}`, {
+    await fetch(`${API_URL}/tasks/${id}`, {
       method: "DELETE",
     });
     setTasks(tasks.filter((task) => task._id !== id));
